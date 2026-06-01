@@ -1,0 +1,39 @@
+// Central domain types — imported by both slices and services to avoid circular deps
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+};
+
+export type Expense = {
+  id: string;
+  title: string;
+  amount: number;
+  paidBy: string;
+  splitAmong: string[];
+  groupId?: string;
+  date: string;
+  category: string;
+  settled: boolean;
+};
+
+export type Group = {
+  id: string;
+  name: string;
+  members: string[];
+  createdAt: string;
+};
+
+export type Contact = {
+  id: string;
+  name: string;
+  email?: string;
+  phone?: string;
+};
+
+export type ApiError = {
+  message: string;
+  code?: string;
+  statusCode?: number;
+};
