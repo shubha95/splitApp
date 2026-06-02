@@ -2,19 +2,31 @@ import apiClient from '../../../services/api/client';
 import type { User } from '../../../types/api';
 import { API_ENDPOINTS } from '../../../config/constants';
 
-export type LoginPayload    = { email: string; password: string };
+export type LoginPayload    = { emailId: string; password: string };
 export type RegisterPayload = { name: string; email: string; password: string };
-export type AuthResponse    = { user: User; token: string };
+
+export type AuthResponse = {
+  user: User;
+  token: string;
+  tokenExpiry: string;
+};
+
+type ApiAuthEnvelope = {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: AuthResponse;
+};
 
 const authService = {
   login: async (payload: LoginPayload): Promise<AuthResponse> => {
-    const { data } = await apiClient.post<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, payload);
-    return data;
+    const { data } = await apiClient.post<ApiAuthEnvelope>(API_ENDPOINTS.AUTH.LOGIN, payload);
+    return data.data;
   },
 
   register: async (payload: RegisterPayload): Promise<AuthResponse> => {
-    const { data } = await apiClient.post<AuthResponse>(API_ENDPOINTS.AUTH.REGISTER, payload);
-    return data;
+    const { data } = await apiClient.post<ApiAuthEnvelope>(API_ENDPOINTS.AUTH.REGISTER, payload);
+    return data.data;
   },
 
   logout: async (): Promise<void> => {

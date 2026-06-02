@@ -4,19 +4,21 @@ import tokenService from '../../../services/security/tokenService';
 import type { User } from '../../../types/api';
 
 type AuthState = {
-  user:       User | null;
-  token:      string | null;
-  isSignedIn: boolean;
-  loading:    boolean;
-  error:      string | null;
+  user:         User | null;
+  token:        string | null;
+  tokenExpiry:  string | null;
+  isSignedIn:   boolean;
+  loading:      boolean;
+  error:        string | null;
 };
 
 const initialState: AuthState = {
-  user:       null,
-  token:      null,
-  isSignedIn: false,
-  loading:    false,
-  error:      null,
+  user:         null,
+  token:        null,
+  tokenExpiry:  null,
+  isSignedIn:   false,
+  loading:      false,
+  error:        null,
 };
 
 // ── Async thunks ──────────────────────────────────────────────────────────────
@@ -26,9 +28,11 @@ export const loginThunk = createAsyncThunk(
   async (payload: LoginPayload, { rejectWithValue }) => {
     try {
       const response = await authService.login(payload);
+      console.log('Login successful, received token:', response);
       await tokenService.save(response.token);
       return response;
     } catch (error: any) {
+      console.log('Login failed:', error);
       return rejectWithValue(error.response?.data?.message ?? 'Login failed');
     }
   },
@@ -114,6 +118,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = payload.user;
         state.token = payload.token;
+        state.tokenExpiry = payload.tokenExpiry;
         state.isSignedIn = true;
       })
       .addCase(loginThunk.rejected, (state, { payload }) => {
@@ -127,6 +132,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = payload.user;
         state.token = payload.token;
+        state.tokenExpiry = payload.tokenExpiry;
         state.isSignedIn = true;
       })
       .addCase(registerThunk.rejected, (state, { payload }) => {
@@ -136,7 +142,7 @@ const authSlice = createSlice({
 
     builder
       .addCase(logoutThunk.fulfilled, state => {
-        state.user = null; state.token = null; state.isSignedIn = false;
+        state.user = null; state.token = null; state.tokenExpiry = null; state.isSignedIn = false;
       });
 
     builder

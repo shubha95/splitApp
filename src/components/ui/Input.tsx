@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import {
   View,
   TextInput,
@@ -16,28 +16,31 @@ type Props = TextInputProps & {
   containerStyle?: ViewStyle;
 };
 
-const Input: React.FC<Props> = ({ label, error, containerStyle, style, ...rest }) => {
-  const [focused, setFocused] = useState(false);
+const Input = forwardRef<TextInput, Props>(
+  ({ label, error, containerStyle, style, onFocus, onBlur, ...rest }, ref) => {
+    const [focused, setFocused] = useState(false);
 
-  return (
-    <View style={[styles.wrapper, containerStyle]}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}
-      <TextInput
-        style={[
-          styles.input,
-          focused && styles.focused,
-          error  && styles.errorBorder,
-          style,
-        ]}
-        placeholderTextColor={colors.textDisabled}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        {...rest}
-      />
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
-    </View>
-  );
-};
+    return (
+      <View style={[styles.wrapper, containerStyle]}>
+        {label ? <Text style={styles.label}>{label}</Text> : null}
+        <TextInput
+          ref={ref}
+          style={[
+            styles.input,
+            focused && styles.focused,
+            error  && styles.errorBorder,
+            style,
+          ]}
+          placeholderTextColor={colors.textDisabled}
+          onFocus={e => { setFocused(true); onFocus?.(e); }}
+          onBlur={e => { setFocused(false); onBlur?.(e); }}
+          {...rest}
+        />
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      </View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   wrapper: { marginBottom: spacing.md },

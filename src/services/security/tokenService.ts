@@ -2,23 +2,29 @@ import * as Keychain from 'react-native-keychain';
 import { Platform } from 'react-native';
 import { STORAGE_KEYS } from '../../config/constants';
 
-// iOS: WHEN_UNLOCKED_THIS_DEVICE_ONLY — not backed up to iCloud, inaccessible when locked.
-// Android: SECURE_SOFTWARE — Android Keystore-backed AES encryption.
 const baseOptions = {
   service: STORAGE_KEYS.AUTH_TOKEN,
-  accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
 };
 
-const androidSecurityLevel =
+// iOS: token is stored in Secure Enclave, inaccessible when device is locked, never backed up to iCloud.
+const iosOptions =
+  Platform.OS === 'ios'
+    ? { accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY }
+    : {};
+
+// Android: token is encrypted using Android Keystore (software-backed AES).
+const androidOptions =
   Platform.OS === 'android'
     ? { securityLevel: Keychain.SECURITY_LEVEL.SECURE_SOFTWARE }
     : {};
 
 const tokenService = {
   save: async (token: string): Promise<void> => {
+    console.log('Saving token to secure storage:', token);
     await Keychain.setGenericPassword('token', token, {
       ...baseOptions,
-      ...androidSecurityLevel,
+      ...iosOptions,
+      ...androidOptions,
     });
   },
 

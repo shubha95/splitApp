@@ -2,8 +2,9 @@
 
 export type User = {
   id: string;
-  name: string;
-  email: string;
+  userName: string;
+  emailId: string;
+  address: string;
 };
 
 export type Expense = {
