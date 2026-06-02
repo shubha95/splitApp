@@ -2,10 +2,11 @@ import React from 'react';
 import { createDrawerNavigator }    from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { DrawerParamList, BottomTabParamList } from './types';
-import HomeScreen     from '../features/home/screens/HomeScreen';
-import ContactsScreen from '../features/contacts/screens/ContactsScreen';
-import ProfileScreen  from '../features/profile/screens/ProfileScreen';
-import AboutScreen    from '../features/about/screens/AboutScreen';
+import HomeScreen          from '../features/home/screens/HomeScreen';
+import ContactsScreen      from '../features/contacts/screens/ContactsScreen';
+import ProfileScreen       from '../features/profile/screens/ProfileScreen';
+import AboutScreen         from '../features/about/screens/AboutScreen';
+import CustomDrawerContent from './CustomDrawerContent';
 
 const Tab    = createBottomTabNavigator<BottomTabParamList>();
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -19,7 +20,7 @@ const TabNavigator = () => (
 );
 
 const AppNavigator = () => (
-  <Drawer.Navigator>
+  <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
     <Drawer.Screen name="HomeTabs" component={TabNavigator}   options={{ title: 'Home' }} />
     <Drawer.Screen name="About"    component={AboutScreen} />
     <Drawer.Screen name="Contacts" component={ContactsScreen} />

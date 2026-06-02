@@ -18,6 +18,13 @@ type ApiAuthEnvelope = {
   data: AuthResponse;
 };
 
+type ApiUserEnvelope = {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: User;
+};
+
 const authService = {
   login: async (payload: LoginPayload): Promise<AuthResponse> => {
     const { data } = await apiClient.post<ApiAuthEnvelope>(API_ENDPOINTS.AUTH.LOGIN, payload);
@@ -49,9 +56,10 @@ const authService = {
     return data;
   },
 
-  getProfile: async (): Promise<User> => {
-    const { data } = await apiClient.get<User>(API_ENDPOINTS.AUTH.ME);
-    return data;
+  getProfile: async (tokenOverride?: string): Promise<User> => {
+    const headers = tokenOverride ? { Authorization: `Bearer ${tokenOverride}` } : undefined;
+    const { data } = await apiClient.get<ApiUserEnvelope>(API_ENDPOINTS.AUTH.ME, { headers });
+    return data.data;
   },
 
   updateProfile: async (payload: Partial<User>): Promise<User> => {

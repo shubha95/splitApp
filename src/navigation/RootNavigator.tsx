@@ -6,7 +6,7 @@ import AppNavigator  from './AppNavigator';
 
 const RootNavigator = () => {
   const isSignedIn = useAppSelector(s => s.auth.isSignedIn);
-
+  console.log('RootNavigator - isSignedIn:', isSignedIn);
   return (
     <NavigationContainer>
       {isSignedIn ? <AppNavigator /> : <AuthNavigator />}

@@ -62,10 +62,13 @@ export const logoutThunk = createAsyncThunk('auth/logout', async () => {
 export const restoreAuthThunk = createAsyncThunk('auth/restore', async () => {
   try {
     const token = await tokenService.get();
+    console.log('[restoreAuth] token from keychain:', token ? 'found' : 'not found');
     if (!token) return null;
-    const user = await authService.getProfile();
+    const user = await authService.getProfile(token);
+    console.log('[restoreAuth] profile fetched, user:', user);
     return { user, token };
-  } catch {
+  } catch (error) {
+    console.log('[restoreAuth] failed, removing token. Error:', error);
     await tokenService.remove();
     return null;
   }

@@ -15,8 +15,8 @@ const ProfileScreen: React.FC = () => {
       <Text style={styles.title}>Profile</Text>
       {user && (
         <View style={styles.card}>
-          <Text style={styles.name}>{user.name}</Text>
-          <Text style={styles.email}>{user.email}</Text>
+          <Text style={styles.name}>{user.userName}</Text>
+          <Text style={styles.email}>{user.emailId}</Text>
         </View>
       )}
       <View style={styles.gap} />
