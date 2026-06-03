@@ -2,6 +2,7 @@ import React from 'react';
 import { ActivityIndicator, StatusBar, useColorScheme, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
+import Toast from 'react-native-toast-message';
 import { store } from './src/store';
 import RootNavigator  from './src/navigation/RootNavigator';
 import ErrorBoundary  from './src/components/ErrorBoundary';
@@ -34,6 +35,7 @@ function App() {
       <Provider store={store}>
         <SafeAreaProvider>
           <AppContent />
+          <Toast />
         </SafeAreaProvider>
       </Provider>
     </ErrorBoundary>

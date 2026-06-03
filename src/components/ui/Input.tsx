@@ -14,28 +14,27 @@ type Props = TextInputProps & {
   label?: string;
   error?: string;
   containerStyle?: ViewStyle;
+  rightElement?: React.ReactNode;
 };
 
 const Input = forwardRef<TextInput, Props>(
-  ({ label, error, containerStyle, style, onFocus, onBlur, ...rest }, ref) => {
+  ({ label, error, containerStyle, style, onFocus, onBlur, rightElement, ...rest }, ref) => {
     const [focused, setFocused] = useState(false);
 
     return (
       <View style={[styles.wrapper, containerStyle]}>
         {label ? <Text style={styles.label}>{label}</Text> : null}
-        <TextInput
-          ref={ref}
-          style={[
-            styles.input,
-            focused && styles.focused,
-            error  && styles.errorBorder,
-            style,
-          ]}
-          placeholderTextColor={colors.textDisabled}
-          onFocus={e => { setFocused(true); onFocus?.(e); }}
-          onBlur={e => { setFocused(false); onBlur?.(e); }}
-          {...rest}
-        />
+        <View style={[styles.inputRow, focused && styles.focused, error && styles.errorBorder]}>
+          <TextInput
+            ref={ref}
+            style={[styles.input, !!rightElement && styles.inputWithRight, style]}
+            placeholderTextColor={colors.textDisabled}
+            onFocus={e => { setFocused(true); onFocus?.(e); }}
+            onBlur={e => { setFocused(false); onBlur?.(e); }}
+            {...rest}
+          />
+          {rightElement ? <View style={styles.rightElement}>{rightElement}</View> : null}
+        </View>
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
       </View>
     );
@@ -50,15 +49,29 @@ const styles = StyleSheet.create({
     color: colors.text,
     marginBottom: spacing.xs,
   },
-  input: {
-    height: 48,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: colors.border,
-    paddingHorizontal: spacing.md,
-    fontSize: 16,
-    color: colors.text,
+  inputRow: {
+    flexDirection:   'row',
+    alignItems:      'center',
+    height:          48,
+    borderRadius:    10,
+    borderWidth:     1,
+    borderColor:     colors.border,
     backgroundColor: colors.surface,
+    overflow:        'hidden',
+  },
+  input: {
+    flex:              1,
+    paddingHorizontal: spacing.md,
+    fontSize:          16,
+    color:             colors.text,
+  },
+  inputWithRight: {
+    paddingRight: 0,
+  },
+  rightElement: {
+    paddingHorizontal: spacing.sm,
+    justifyContent:    'center',
+    alignItems:        'center',
   },
   focused:     { borderColor: colors.primary },
   errorBorder: { borderColor: colors.danger },

@@ -3,7 +3,7 @@ import type { User } from '../../../types/api';
 import { API_ENDPOINTS } from '../../../config/constants';
 
 export type LoginPayload    = { emailId: string; password: string };
-export type RegisterPayload = { name: string; email: string; password: string };
+export type RegisterPayload = { userName: string; emailId: string; password: string; address: string };
 
 export type AuthResponse = {
   user: User;
@@ -31,9 +31,9 @@ const authService = {
     return data.data;
   },
 
-  register: async (payload: RegisterPayload): Promise<AuthResponse> => {
+  register: async (payload: RegisterPayload): Promise<{ message: string }> => {
     const { data } = await apiClient.post<ApiAuthEnvelope>(API_ENDPOINTS.AUTH.REGISTER, payload);
-    return data.data;
+    return { message: data.message };
   },
 
   logout: async (): Promise<void> => {
