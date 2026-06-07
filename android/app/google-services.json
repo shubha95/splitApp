@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "575547872653",
+    "project_id": "expanse-split-b8c27",
+    "storage_bucket": "expanse-split-b8c27.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575547872653:android:39404b330a3a1494af19c4",
+        "android_client_info": {
+          "package_name": "com.expensesplitapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575547872653-p38fqp8bqs4mu0ddh3vdl42514vrmr6a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.expensesplitapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "575547872653-aa3qbqlr8fv74ri0s104nequ05iak90i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8FFEzeEb87mZiYThWZcJAwNsaIn0dKa8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575547872653-aa3qbqlr8fv74ri0s104nequ05iak90i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

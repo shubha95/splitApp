@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import authService, { LoginPayload, RegisterPayload } from '../services/authService';
+import authService, { LoginPayload, RegisterPayload, SocialLoginPayload } from '../services/authService';
 import tokenService from '../../../services/security/tokenService';
 import type { User } from '../../../types/api';
 
@@ -46,6 +46,21 @@ export const registerThunk = createAsyncThunk(
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message ?? 'Registration failed');
+    }
+  },
+);
+
+export const socialLoginThunk = createAsyncThunk(
+  'auth/socialLogin',
+  async (payload: SocialLoginPayload, { rejectWithValue }) => {
+    try {
+      console.log(`Attempting social login with provider: ${payload.token}`);
+      const response = await authService.socialLogin(payload);
+      console.log(`Social login successful for ${payload.provider}, received token:`, response);
+      await tokenService.save(response.token);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message ?? 'Social login failed');
     }
   },
 );
@@ -136,6 +151,20 @@ const authSlice = createSlice({
       .addCase(registerThunk.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as string;
+      });
+
+    builder
+      .addCase(socialLoginThunk.pending, state => { state.loading = true; state.error = null; })
+      .addCase(socialLoginThunk.fulfilled, (state, { payload }) => {
+        state.loading    = false;
+        state.user       = payload.user;
+        state.token      = payload.token;
+        state.tokenExpiry = payload.tokenExpiry;
+        state.isSignedIn = true;
+      })
+      .addCase(socialLoginThunk.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error   = payload as string;
       });
 
     builder

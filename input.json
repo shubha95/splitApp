@@ -1,0 +1,147 @@
+{
+  "task": "Add social login to existing React Native + TypeScript app",
+  "role": "You are an expert React Native + TypeScript developer.",
+  "description": "Add social login (Google, Facebook, X/Twitter, Microsoft/Outlook) to an existing app that already has working email/password login and registration.",
+
+  "step_1_trace_first": {
+    "instruction": "Before writing ANY code, read and fully understand these files",
+    "files_to_read": [
+      "src/features/auth/screens/LoginScreen.tsx",
+      "src/features/auth/screens/RegisterScreen.tsx",
+      "src/features/auth/hooks/useAuthLogin.ts",
+      "src/features/auth/hooks/useAuthRegister.ts",
+      "src/features/auth/services/authService.ts",
+      "src/features/auth/store/authSlice.ts"
+    ],
+    "extract_from_files": [
+      "Existing component structure, styling patterns, UI conventions",
+      "How the login API call is made (endpoint, request shape, response shape)",
+      "How JWT/token is saved to SecureStore after login",
+      "How navigation works after successful login",
+      "TypeScript types/interfaces already defined for auth (User, AuthResponse, etc.)",
+      "Existing AuthContext, Redux slice, or Zustand store managing auth state",
+      "Existing utility functions (saveToken, getToken, etc.)"
+    ],
+    "also_trace_imports": [
+      "API client being used (axios instance / fetch wrapper)",
+      "Navigation structure (stack name, screen names)",
+      "Shared UI components (Button, Input, Divider, etc.) already in the codebase"
+    ],
+    "rule": "Do NOT invent new patterns. Mirror exactly what already exists."
+  },
+
+  "step_2_backend_api_contract": {
+    "endpoint": "POST /auth/social",
+    "request_body": {
+      "provider": "google | facebook | twitter | outlook",
+      "token": "string"
+    },
+    "response": {
+      "jwt": "string",
+      "user": {
+        "id": "string",
+        "name": "string",
+        "email": "string",
+        "avatar": "string"
+      }
+    },
+    "after_success": [
+      "Save JWT to SecureStore using the SAME function already used in useAuthLogin.ts",
+      "Update auth state using the SAME context/store pattern already in the app",
+      "Navigate using navigation.replace() to the same screen existing login navigates to"
+    ]
+  },
+
+  "step_3_new_files_to_create": [
+    {
+      "file": "src/features/auth/hooks/useSocialAuth.ts",
+      "rules": [
+        "Mirror structure of useAuthLogin.ts exactly — same loading state, error state, return shape",
+        "Export: { loginWithGoogle, loginWithFacebook, loginWithTwitter, loginWithOutlook, isLoading, error }",
+        "Each function: triggers provider SDK → gets token → calls POST /auth/social → saves JWT → updates auth state",
+        "On failure: set typed error message"
+      ],
+      "packages": {
+        "Google": "@react-native-google-signin/google-signin",
+        "Facebook": "react-native-fbsdk-next",
+        "Twitter": "react-native-app-auth (OAuth 2.0 PKCE)",
+        "Outlook": "react-native-msal"
+      }
+    },
+    {
+      "file": "src/features/auth/components/SocialLoginButtons.tsx",
+      "props": {
+        "mode": "login | register",
+        "onLoginSuccess": "(user: User) => void — used in login mode only",
+        "onRegisterRedirect": "() => void — used in register mode only"
+      },
+      "rules": [
+        "Renders divider 'or continue with' + 4 provider buttons",
+        "Each button shows provider icon (react-native-svg) and provider name",
+        "Show loading indicator on active button only during login",
+        "Show error in the same style existing errors are shown in the screen",
+        "Both LoginScreen and RegisterScreen import this component"
+      ]
+    }
+  ],
+
+  "step_4_files_to_update": [
+    {
+      "file": "src/features/auth/screens/LoginScreen.tsx",
+      "rules": [
+        "Keep ALL existing code exactly as-is",
+        "Add <SocialLoginButtons mode='login' onLoginSuccess={...} /> below existing login form",
+        "Call useSocialAuth hook the same pattern as useAuthLogin is called today",
+        "On social login success: save token + navigate (same as email login flow)"
+      ]
+    },
+    {
+      "file": "src/features/auth/screens/RegisterScreen.tsx",
+      "rules": [
+        "Keep ALL existing code exactly as-is",
+        "Add <SocialLoginButtons mode='register' onRegisterRedirect={...} /> below existing register form",
+        "Social buttons on register screen do NOT save a token and do NOT call POST /auth/social",
+        "On social provider SDK success: navigate to LoginScreen",
+        "Pass provider and email as navigation params to LoginScreen"
+      ]
+    }
+  ],
+
+  "typescript_rules": [
+    "No 'any' types anywhere",
+    "Define: type SocialProvider = 'google' | 'facebook' | 'twitter' | 'outlook'",
+    "Reuse existing User and AuthResponse types — do not redefine them",
+    "Extend existing types if needed, never duplicate"
+  ],
+
+  "hard_constraints": [
+    "Do NOT change existing email login or registration flow",
+    "Do NOT change navigation structure",
+    "Do NOT add a new token storage utility — reuse what exists in the codebase",
+    "Do NOT add a new AuthContext — plug into whatever already exists",
+    "Mirror file naming conventions found in the codebase",
+    "Mirror import style (absolute vs relative paths) already used in the project"
+  ],
+
+  "output_order": [
+    "src/features/auth/hooks/useSocialAuth.ts",
+    "src/features/auth/components/SocialLoginButtons.tsx",
+    "src/features/auth/screens/LoginScreen.tsx (updated, full file)",
+    "src/features/auth/screens/RegisterScreen.tsx (updated, full file)"
+  ],
+
+  "output_rules": [
+    "Full working code — no placeholders except TODO for provider credentials",
+    "Add TODO comments wherever a client ID or redirect URI must be configured",
+    "Comment every non-obvious block",
+    "Do not truncate — output the complete file every time"
+  ],
+
+  "final_verification_checklist": [
+    "Token is saved ONLY in login flow — never in register flow",
+    "Register social flow ends with navigation to LoginScreen",
+    "Login social flow ends with navigation.replace() to home screen",
+    "No existing email login or registration functionality is broken",
+    "All new code passes strict TypeScript — no implicit any, no ts-ignore"
+  ]
+}

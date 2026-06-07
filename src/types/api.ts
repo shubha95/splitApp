@@ -5,7 +5,10 @@ export type User = {
   userName: string;
   emailId: string;
   address: string;
+  avatar?: string;
 };
+
+export type SocialProvider = 'google' | 'facebook' | 'twitter' | 'outlook';
 
 export type Expense = {
   id: string;

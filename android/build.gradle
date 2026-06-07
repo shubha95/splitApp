@@ -6,6 +6,13 @@ buildscript {
         targetSdkVersion = 36
         ndkVersion = "27.1.12297006"
         kotlinVersion = "2.1.20"
+        // react-native-msal overrides (safeExtGet reads these from rootProject.ext)
+        Msal_compileSdkVersion = 36
+        Msal_minSdkVersion = 24
+        Msal_targetSdkVersion = 36
+        // Tells react-native-gesture-handler (and similar libs) where react-native lives,
+        // bypassing their `node` fallback which fails when node isn't on the Gradle daemon's PATH.
+        REACT_NATIVE_NODE_MODULES_DIR = new File(rootDir, "../node_modules/react-native").absolutePath
     }
     repositories {
         google()
@@ -15,6 +22,7 @@ buildscript {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        classpath("com.google.gms:google-services:4.4.2")
     }
 }
 

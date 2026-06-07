@@ -5,6 +5,7 @@ import { Button, Input, Screen } from '../../../components/ui';
 import { colors } from '../../../theme/colors';
 import { spacing } from '../../../theme/spacing';
 import { useAuthLogin } from '../hooks/useAuthLogin';
+import SocialLoginButtons from '../components/SocialLoginButtons';
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const {
@@ -87,6 +88,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           onPress={() => navigation.navigate('ForgotPassword')}
           style={styles.mt}
         />
+
+        <SocialLoginButtons mode="login" />
 
       </View>
     </Screen>

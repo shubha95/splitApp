@@ -5,6 +5,7 @@ import { Button, Input, Screen } from '../../../components/ui';
 import { colors }  from '../../../theme/colors';
 import { spacing } from '../../../theme/spacing';
 import { useAuthRegister } from '../hooks/useAuthRegister';
+import SocialLoginButtons from '../components/SocialLoginButtons';
 
 const EyeIcon = ({ visible }: { visible: boolean }) => (
   <Text style={styles.eyeText}>{visible ? '🙈' : '👁'}</Text>
@@ -137,6 +138,8 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
           onPress={() => navigation.navigate('Login')}
           style={styles.mt}
         />
+
+        <SocialLoginButtons mode="register" />
 
       </View>
     </Screen>

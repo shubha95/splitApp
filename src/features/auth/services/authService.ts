@@ -1,6 +1,8 @@
 import apiClient from '../../../services/api/client';
-import type { User } from '../../../types/api';
+import type { User, SocialProvider } from '../../../types/api';
 import { API_ENDPOINTS } from '../../../config/constants';
+
+export type SocialLoginPayload = { provider: SocialProvider; token: string };
 
 export type LoginPayload    = { emailId: string; password: string };
 export type RegisterPayload = { userName: string; emailId: string; password: string; address: string };
@@ -34,6 +36,11 @@ const authService = {
   register: async (payload: RegisterPayload): Promise<{ message: string }> => {
     const { data } = await apiClient.post<ApiAuthEnvelope>(API_ENDPOINTS.AUTH.REGISTER, payload);
     return { message: data.message };
+  },
+
+  socialLogin: async (payload: SocialLoginPayload): Promise<AuthResponse> => {
+    const { data } = await apiClient.post<ApiAuthEnvelope>(API_ENDPOINTS.AUTH.SOCIAL, payload);
+    return data.data;
   },
 
   logout: async (): Promise<void> => {

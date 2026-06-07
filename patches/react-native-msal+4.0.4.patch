@@ -1,0 +1,31 @@
+diff --git a/node_modules/react-native-msal/android/build.gradle b/node_modules/react-native-msal/android/build.gradle
+index 6c59f86..286639a 100644
+--- a/node_modules/react-native-msal/android/build.gradle
++++ b/node_modules/react-native-msal/android/build.gradle
+@@ -1,7 +1,7 @@
+ buildscript {
+   repositories {
+     google()
+-    jcenter()
++    mavenCentral()
+   }
+ 
+   dependencies {
+@@ -45,11 +45,15 @@ repositories {
+     url("$rootDir/../node_modules/react-native/android")
+   }
+   google()
+-  jcenter()
++  mavenCentral()
++  maven { url 'https://pkgs.dev.azure.com/MicrosoftDeviceSDK/DuoSDK-Public/_packaging/Duo-SDK-Feed/maven/v1' }
+ }
+ 
+ dependencies {
+   // noinspection GradleDynamicVersion
+   implementation 'com.facebook.react:react-native:+' // From node_modules
+-  implementation 'com.microsoft.identity.client:msal:2.2.+'
++  implementation('com.microsoft.identity.client:msal:2.2.+') {
++    // display-mask is only for Surface Duo foldable screens — not available on mavenCentral
++    exclude group: 'com.microsoft.device.display', module: 'display-mask'
++  }
+ }

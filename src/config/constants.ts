@@ -10,6 +10,7 @@ export const API_ENDPOINTS = {
     FORGOT_PASSWORD: '/auth/forgot-password',
     RESET_PASSWORD:  '/auth/reset-password',
     ME:              '/auth/me',
+    SOCIAL:          '/auth/social',
   },
   EXPENSES: {
     BASE:     '/expenses',
