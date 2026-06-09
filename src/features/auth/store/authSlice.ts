@@ -54,9 +54,7 @@ export const socialLoginThunk = createAsyncThunk(
   'auth/socialLogin',
   async (payload: SocialLoginPayload, { rejectWithValue }) => {
     try {
-      console.log(`Attempting social login with provider: ${payload.token}`);
       const response = await authService.socialLogin(payload);
-      console.log(`Social login successful for ${payload.provider}, received token:`, response);
       await tokenService.save(response.token);
       return response;
     } catch (error: any) {
