@@ -11,7 +11,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Svg, { Path, Rect, Circle, G } from 'react-native-svg';
 import { useSocialAuth } from '../hooks/useSocialAuth';
 import { colors }  from '../../../theme/colors';
-import { spacing } from '../../../theme/spacing';
+import { rfs, rvs, rms, rSpacing } from '../../../theme/device';
 import type { AuthStackParamList } from '../../../navigation/types';
 import type { SocialProvider } from '../../../types/api';
 
@@ -141,12 +141,12 @@ const SocialLoginButtons: React.FC<Props> = ({ mode }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: spacing.lg,
+    marginTop: rSpacing.lg,
   },
   dividerRow: {
     flexDirection:  'row',
     alignItems:     'center',
-    marginBottom:   spacing.md,
+    marginBottom:   rSpacing.md,
   },
   dividerLine: {
     flex:            1,
@@ -154,39 +154,39 @@ const styles = StyleSheet.create({
     backgroundColor: colors.border,
   },
   dividerText: {
-    marginHorizontal: spacing.sm,
-    fontSize:         13,
+    marginHorizontal: rSpacing.sm,
+    fontSize:         rfs(13),
     color:            colors.textSecondary,
   },
   apiErrorBox: {
     backgroundColor: colors.unsettled,
-    borderRadius:    8,
-    padding:         spacing.sm,
-    marginBottom:    spacing.sm,
+    borderRadius:    rms(8),
+    padding:         rSpacing.sm,
+    marginBottom:    rSpacing.sm,
   },
   apiErrorText: {
-    fontSize:  13,
+    fontSize:  rfs(13),
     color:     colors.danger,
     textAlign: 'center',
   },
   buttonsRow: {
     flexDirection:  'row',
     justifyContent: 'space-between',
-    gap:            spacing.sm,
+    gap:            rSpacing.sm,
   },
   button: {
     flex:            1,
     flexDirection:   'row',
     alignItems:      'center',
     justifyContent:  'center',
-    gap:             spacing.xs,
-    height:          44,
-    borderRadius:    10,
+    gap:             rSpacing.xs,
+    height:          rvs(44),
+    borderRadius:    rms(10),
     borderWidth:     1,
     backgroundColor: colors.surface,
   },
   buttonLabel: {
-    fontSize:   11,
+    fontSize:   rfs(11),
     fontWeight: '500',
     color:      colors.text,
   },

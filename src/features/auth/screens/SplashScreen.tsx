@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import type { SplashScreenProps } from '../../../navigation/types';
 import { colors } from '../../../theme/colors';
+import { rfs, rvs } from '../../../theme/device';
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
   useEffect(() => {
@@ -19,8 +20,8 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background },
-  title:     { fontSize: 32, fontWeight: '700', color: colors.primary, marginBottom: 8 },
-  subtitle:  { fontSize: 16, color: colors.textSecondary },
+  title:     { fontSize: rfs(32), fontWeight: '700', color: colors.primary, marginBottom: rvs(8) },
+  subtitle:  { fontSize: rfs(16), color: colors.textSecondary },
 });
 
 export default SplashScreen;

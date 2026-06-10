@@ -20,6 +20,10 @@ export const API_ENDPOINTS = {
   },
   GROUPS: {
     BASE:          '/groups',
+    MY_GROUPS:     '/group/my-groups',
+    GROUP_CREATE:  '/group',
+    GROUP_UPDATE:  '/group',
+    GROUP_DELETE:  '/group',
     BY_ID:         (id: string) => `/groups/${id}`,
     MEMBERS:       (groupId: string) => `/groups/${groupId}/members`,
     MEMBER_BY_ID:  (groupId: string, memberId: string) => `/groups/${groupId}/members/${memberId}`,

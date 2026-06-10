@@ -3,7 +3,7 @@ import { Text, StyleSheet } from 'react-native';
 import { Screen } from '../../../components/ui';
 import { colors } from '../../../theme/colors';
 import { APP_NAME } from '../../../config/constants';
-import { spacing } from '../../../theme/spacing';
+import { rfs, rvs, rSpacing } from '../../../theme/device';
 
 const AboutScreen: React.FC = () => (
   <Screen>
@@ -15,8 +15,8 @@ const AboutScreen: React.FC = () => (
 );
 
 const styles = StyleSheet.create({
-  title: { fontSize: 22, fontWeight: '700', color: colors.text, marginBottom: spacing.sm },
-  body:  { fontSize: 15, color: colors.textSecondary, lineHeight: 22 },
+  title: { fontSize: rfs(22), fontWeight: '700', color: colors.text, marginBottom: rSpacing.sm },
+  body:  { fontSize: rfs(15), color: colors.textSecondary, lineHeight: rvs(22) },
 });
 
 export default AboutScreen;

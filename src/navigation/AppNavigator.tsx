@@ -20,8 +20,17 @@ const TabNavigator = () => (
 );
 
 const AppNavigator = () => (
-  <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
-    <Drawer.Screen name="HomeTabs" component={TabNavigator}   options={{ title: 'Home' }} />
+  <Drawer.Navigator
+    drawerContent={props => <CustomDrawerContent {...props} />}
+    screenOptions={{
+      headerTitle: () => null,
+      headerShadowVisible: false,
+      headerTransparent: true,
+      headerStyle: { backgroundColor: 'transparent', elevation: 0, shadowOpacity: 0 },
+      headerLeftContainerStyle: { paddingTop: 0, paddingLeft: 0, margin: 0,paddingBottom: 20 },
+    }}
+  >
+    <Drawer.Screen name="HomeTabs" component={TabNavigator} />
     <Drawer.Screen name="About"    component={AboutScreen} />
     <Drawer.Screen name="Contacts" component={ContactsScreen} />
     <Drawer.Screen name="Profile"  component={ProfileScreen} />

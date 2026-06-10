@@ -4,7 +4,7 @@ import { Screen, Button } from '../../../components/ui';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { logoutThunk } from '../../auth/store/authSlice';
 import { colors } from '../../../theme/colors';
-import { spacing } from '../../../theme/spacing';
+import { rfs, rms, rSpacing } from '../../../theme/device';
 
 const ProfileScreen: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -26,10 +26,10 @@ const ProfileScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  title: { fontSize: 22, fontWeight: '700', color: colors.text, marginBottom: spacing.md },
-  card:  { backgroundColor: colors.surface, borderRadius: 12, padding: spacing.md, borderWidth: 1, borderColor: colors.border },
-  name:  { fontSize: 18, fontWeight: '600', color: colors.text },
-  email: { fontSize: 14, color: colors.textSecondary, marginTop: spacing.xs },
+  title: { fontSize: rfs(22), fontWeight: '700', color: colors.text, marginBottom: rSpacing.md },
+  card:  { backgroundColor: colors.surface, borderRadius: rms(12), padding: rSpacing.md, borderWidth: 1, borderColor: colors.border },
+  name:  { fontSize: rfs(18), fontWeight: '600', color: colors.text },
+  email: { fontSize: rfs(14), color: colors.textSecondary, marginTop: rSpacing.xs },
   gap:   { flex: 1 },
 });
 

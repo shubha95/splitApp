@@ -8,7 +8,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { colors } from '../../theme/colors';
-import { spacing } from '../../theme/spacing';
+import { rfs, rms, rSpacing } from '../../theme/device';
 
 type Props = TextInputProps & {
   label?: string;
@@ -28,7 +28,7 @@ const Input = forwardRef<TextInput, Props>(
           <TextInput
             ref={ref}
             style={[styles.input, !!rightElement && styles.inputWithRight, style]}
-            placeholderTextColor={colors.textDisabled}
+            placeholderTextColor={colors.textSecondary}
             onFocus={e => { setFocused(true); onFocus?.(e); }}
             onBlur={e => { setFocused(false); onBlur?.(e); }}
             {...rest}
@@ -42,18 +42,18 @@ const Input = forwardRef<TextInput, Props>(
 );
 
 const styles = StyleSheet.create({
-  wrapper: { marginBottom: spacing.md },
+  wrapper: { marginBottom: rSpacing.md },
   label: {
-    fontSize: 14,
+    fontSize: rfs(14),
     fontWeight: '500',
     color: colors.text,
-    marginBottom: spacing.xs,
+    marginBottom: rSpacing.xs,
   },
   inputRow: {
     flexDirection:   'row',
     alignItems:      'center',
-    height:          48,
-    borderRadius:    10,
+    height:          rms(48, 0.3),
+    borderRadius:    rms(10),
     borderWidth:     1,
     borderColor:     colors.border,
     backgroundColor: colors.surface,
@@ -61,21 +61,21 @@ const styles = StyleSheet.create({
   },
   input: {
     flex:              1,
-    paddingHorizontal: spacing.md,
-    fontSize:          16,
+    paddingHorizontal: rSpacing.md,
+    fontSize:          rfs(16),
     color:             colors.text,
   },
   inputWithRight: {
     paddingRight: 0,
   },
   rightElement: {
-    paddingHorizontal: spacing.sm,
+    paddingHorizontal: rSpacing.sm,
     justifyContent:    'center',
     alignItems:        'center',
   },
   focused:     { borderColor: colors.primary },
   errorBorder: { borderColor: colors.danger },
-  errorText:   { fontSize: 12, color: colors.danger, marginTop: spacing.xs },
+  errorText:   { fontSize: rfs(12), color: colors.danger, marginTop: rSpacing.xs },
 });
 
 export default Input;

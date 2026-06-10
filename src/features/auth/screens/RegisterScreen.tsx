@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { RegisterScreenProps } from '../../../navigation/types';
 import { Button, Input, Screen } from '../../../components/ui';
 import { colors }  from '../../../theme/colors';
-import { spacing } from '../../../theme/spacing';
+import { rfs, rms, rSpacing } from '../../../theme/device';
 import { useAuthRegister } from '../hooks/useAuthRegister';
 import SocialLoginButtons from '../components/SocialLoginButtons';
 
@@ -152,37 +152,37 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    marginBottom: spacing.xl,
+    marginBottom: rSpacing.xl,
   },
   title: {
-    fontSize:     28,
+    fontSize:     rfs(28),
     fontWeight:   '700',
     color:        colors.text,
-    marginBottom: spacing.xs,
+    marginBottom: rSpacing.xs,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: rfs(16),
     color:    colors.textSecondary,
   },
   form: {
-    marginBottom: spacing.md,
+    marginBottom: rSpacing.md,
   },
   apiErrorBox: {
     backgroundColor: colors.unsettled,
-    borderRadius:    8,
-    padding:         spacing.sm,
-    marginBottom:    spacing.sm,
+    borderRadius:    rms(8),
+    padding:         rSpacing.sm,
+    marginBottom:    rSpacing.sm,
   },
   apiErrorText: {
-    fontSize:   13,
+    fontSize:   rfs(13),
     color:      colors.danger,
     textAlign:  'center',
   },
   mt: {
-    marginTop: spacing.sm,
+    marginTop: rSpacing.sm,
   },
   eyeText: {
-    fontSize: 18,
+    fontSize: rfs(18),
   },
 });
 

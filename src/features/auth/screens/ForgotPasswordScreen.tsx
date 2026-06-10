@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import type { ForgotPasswordScreenProps } from '../../../navigation/types';
 import { Button, Screen } from '../../../components/ui';
 import { colors } from '../../../theme/colors';
-import { spacing } from '../../../theme/spacing';
+import { rfs, rvs, rSpacing } from '../../../theme/device';
 
 const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({ navigation }) => (
   <Screen>
@@ -19,10 +19,10 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({ navigation 
 
 const styles = StyleSheet.create({
   inner: { flex: 1, justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: '700', color: colors.text, marginBottom: spacing.sm },
-  body:  { fontSize: 15, color: colors.textSecondary, marginBottom: spacing.lg },
-  gap:   { height: spacing.md },
-  mt:    { marginTop: spacing.sm },
+  title: { fontSize: rfs(24), fontWeight: '700', color: colors.text, marginBottom: rSpacing.sm },
+  body:  { fontSize: rfs(15), color: colors.textSecondary, marginBottom: rSpacing.lg },
+  gap:   { height: rSpacing.md },
+  mt:    { marginTop: rSpacing.sm },
 });
 
 export default ForgotPasswordScreen;

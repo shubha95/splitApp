@@ -29,6 +29,34 @@ export type Group = {
   createdAt: string;
 };
 
+export type UpdateMyGroupPayload = {
+  groupID:     string;
+  groupName:   string;
+  description: string;
+};
+
+export type MyGroupsPayload = {
+  pageNumber: number;
+  itemNumber: number;
+};
+
+export type MyGroup = {
+  groupID:     string;
+  groupName:   string;
+  createdBy:   string;
+  description: string;
+  createDate:  string;
+  updateDate:  string;
+};
+
+export type MyGroupsResponse = {
+  total:       number;
+  pageNumber:  number;
+  itemNumber:  number;
+  totalPages:  number;
+  groups:      MyGroup[];
+};
+
 export type Contact = {
   id: string;
   name: string;

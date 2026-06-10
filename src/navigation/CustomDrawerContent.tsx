@@ -8,8 +8,8 @@ import {
 } from '@react-navigation/drawer';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { logoutThunk } from '../features/auth/store/authSlice';
-import { colors }  from '../theme/colors';
-import { spacing } from '../theme/spacing';
+import { colors }   from '../theme/colors';
+import { rfs, rSpacing } from '../theme/device';
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const dispatch = useAppDispatch();
@@ -52,32 +52,32 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   userSection: {
-    padding:         spacing.md,
+    padding:         rSpacing.md,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
-    marginBottom:    spacing.sm,
+    marginBottom:    rSpacing.sm,
   },
   userName: {
-    fontSize:   16,
+    fontSize:   rfs(16),
     fontWeight: '600',
     color:      colors.text,
   },
   userEmail: {
-    fontSize:   13,
+    fontSize:   rfs(13),
     color:      colors.textSecondary,
-    marginTop:  spacing.xs,
+    marginTop:  rSpacing.xs,
   },
   footer: {
     borderTopWidth: 1,
     borderTopColor: colors.border,
-    paddingBottom:  spacing.sm,
+    paddingBottom:  rSpacing.sm,
   },
   logoutLabel: {
     color:      colors.danger,
     fontWeight: '600',
   },
   logoutItem: {
-    marginHorizontal: spacing.xs,
+    marginHorizontal: rSpacing.xs,
   },
 });
 

@@ -1,11 +1,15 @@
 import apiClient from '../../../services/api/client';
-import type { Group } from '../../../types/api';
+import type { Group, MyGroup, MyGroupsPayload, MyGroupsResponse, UpdateMyGroupPayload } from '../../../types/api';
 import { API_ENDPOINTS } from '../../../config/constants';
 
 export type CreateGroupPayload = Omit<Group, 'id' | 'createdAt'>;
 export type UpdateGroupPayload = Partial<Omit<Group, 'id' | 'createdAt'>>;
 
 const groupService = {
+  myGroups:     async (p: MyGroupsPayload): Promise<MyGroupsResponse> => (await apiClient.post<{ data: MyGroupsResponse }>(API_ENDPOINTS.GROUPS.MY_GROUPS, p)).data.data,
+  createMyGroup:  async (p: { groupName: string; description: string }): Promise<MyGroup> => (await apiClient.post<{ data: MyGroup }>(API_ENDPOINTS.GROUPS.GROUP_CREATE, p)).data.data,
+  updateMyGroup:  async (p: UpdateMyGroupPayload): Promise<MyGroup> => (await apiClient.put<{ data: MyGroup }>(API_ENDPOINTS.GROUPS.GROUP_UPDATE, p)).data.data,
+  deleteMyGroup:  async (groupID: string): Promise<{ groupID: string; message: string }> => { const res = await apiClient.delete<{ message: string; data: { groupID: string } }>(API_ENDPOINTS.GROUPS.GROUP_DELETE, { data: { groupID } }); return { groupID: res.data.data.groupID, message: res.data.message }; },
   getAll:       async (): Promise<Group[]> => (await apiClient.get<Group[]>(API_ENDPOINTS.GROUPS.BASE)).data,
   getById:      async (id: string): Promise<Group> => (await apiClient.get<Group>(API_ENDPOINTS.GROUPS.BY_ID(id))).data,
   create:       async (p: CreateGroupPayload): Promise<Group> => (await apiClient.post<Group>(API_ENDPOINTS.GROUPS.BASE, p)).data,

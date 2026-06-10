@@ -8,7 +8,7 @@ import {
   TextStyle,
 } from 'react-native';
 import { colors } from '../../theme/colors';
-import { spacing } from '../../theme/spacing';
+import { rfs, rms, rSpacing } from '../../theme/device';
 
 type Variant = 'primary' | 'secondary' | 'danger' | 'outline';
 
@@ -58,13 +58,13 @@ const Button: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   base: {
-    height: 48,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: spacing.lg,
+    height:            rms(48, 0.3),
+    borderRadius:      rms(10),
+    alignItems:        'center',
+    justifyContent:    'center',
+    paddingHorizontal: rSpacing.lg,
   },
-  text: { fontSize: 16, fontWeight: '600' },
+  text:     { fontSize: rfs(16), fontWeight: '600' },
   disabled: { opacity: 0.5 },
 });
 

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../../theme/colors';
-import { spacing } from '../../theme/spacing';
+import { rSpacing } from '../../theme/device';
 
 type Props = {
   children: React.ReactNode;
@@ -42,9 +42,10 @@ const Screen: React.FC<Props> = ({ children, scroll = false, padded = true, styl
 };
 
 const styles = StyleSheet.create({
-  safe:   { flex: 1, backgroundColor: colors.background },
+  safe:   { flex: 1, 
+    backgroundColor: colors.background },
   fill:   { flex: 1 },
-  padded: { padding: spacing.md },
+  padded: { padding: rSpacing.md },
 });
 
 export default Screen;
