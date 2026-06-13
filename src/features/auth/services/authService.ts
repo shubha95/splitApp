@@ -1,5 +1,5 @@
 import apiClient from '../../../services/api/client';
-import type { User, SocialProvider } from '../../../types/api';
+import type { User, SocialProvider, AllUsersPayload, AllUsersResponse } from '../../../types/api';
 import { API_ENDPOINTS } from '../../../config/constants';
 
 export type SocialLoginPayload = { provider: SocialProvider; token: string };
@@ -72,6 +72,12 @@ const authService = {
   updateProfile: async (payload: Partial<User>): Promise<User> => {
     const { data } = await apiClient.put<User>(API_ENDPOINTS.AUTH.ME, payload);
     return data;
+  },
+
+  getUsers: async (payload: AllUsersPayload): Promise<AllUsersResponse> => {
+    console.log("get member not prenet group",payload)
+    const { data } = await apiClient.post<{ data: AllUsersResponse }>(API_ENDPOINTS.AUTH.USERS, payload);
+    return data.data;
   },
 };
 

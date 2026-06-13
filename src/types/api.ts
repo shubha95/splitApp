@@ -64,6 +64,56 @@ export type Contact = {
   phone?: string;
 };
 
+export type GroupMember = {
+  memberRecordID: string;
+  memberID:       string;
+  groupID:        string;
+  groupAddedBy:   string;
+  role:           string;
+  permissions:    string[];
+  createDate:     string;
+  userName:       string;
+  emailId:        string;
+  avatar:         string | null;
+};
+export type GroupMemberId = {
+  groupID: string;
+};
+
+export type ListUser = {
+  id:        string;
+  userName:  string;
+  emailId:   string;
+  address:   string;
+  createdAt: string;
+};
+
+export type AllUsersPayload = {
+  pageNumber: number;
+  itemNumber: number;
+  search:     string;
+  groupID: string
+};
+
+export type AllUsersResponse = {
+  total:      number;
+  pageNumber: number;
+  itemNumber: number;
+  totalPages: number;
+  users:      ListUser[];
+};
+export type AddGroupMemberPayload = {
+  memberID: string[];
+  groupID:  string;
+};
+
+export type AddGroupMemberResponse = {
+  totalRequested: number;
+  added:          number;
+  skipped:        number;
+  members:        any[];
+};
+
 export type ApiError = {
   message: string;
   code?: string;

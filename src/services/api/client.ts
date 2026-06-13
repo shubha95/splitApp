@@ -19,6 +19,7 @@ apiClient.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    console.log('Request intercepted:', config);
     return config;
   },
   (error: AxiosError) => Promise.reject(error),

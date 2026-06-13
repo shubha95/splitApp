@@ -1,5 +1,5 @@
 import apiClient from '../../../services/api/client';
-import type { Group, MyGroup, MyGroupsPayload, MyGroupsResponse, UpdateMyGroupPayload } from '../../../types/api';
+import type { AddGroupMemberPayload, AddGroupMemberResponse, Group, GroupMember, GroupMemberId, MyGroup, MyGroupsPayload, MyGroupsResponse, UpdateMyGroupPayload } from '../../../types/api';
 import { API_ENDPOINTS } from '../../../config/constants';
 
 export type CreateGroupPayload = Omit<Group, 'id' | 'createdAt'>;
@@ -15,8 +15,10 @@ const groupService = {
   create:       async (p: CreateGroupPayload): Promise<Group> => (await apiClient.post<Group>(API_ENDPOINTS.GROUPS.BASE, p)).data,
   update:       async (id: string, p: UpdateGroupPayload): Promise<Group> => (await apiClient.put<Group>(API_ENDPOINTS.GROUPS.BY_ID(id), p)).data,
   delete:       async (id: string): Promise<void> => { await apiClient.delete(API_ENDPOINTS.GROUPS.BY_ID(id)); },
-  addMember:    async (groupId: string, memberId: string): Promise<Group> => (await apiClient.post<Group>(API_ENDPOINTS.GROUPS.MEMBERS(groupId), { memberId })).data,
-  removeMember: async (groupId: string, memberId: string): Promise<Group> => (await apiClient.delete<Group>(API_ENDPOINTS.GROUPS.MEMBER_BY_ID(groupId, memberId))).data,
+  addMember:       async (groupId: string, memberId: string): Promise<Group> => (await apiClient.post<Group>(API_ENDPOINTS.GROUPS.MEMBERS(groupId), { memberId })).data,
+  removeMember:    async (groupId: string, memberId: string): Promise<Group> => (await apiClient.delete<Group>(API_ENDPOINTS.GROUPS.MEMBER_BY_ID(groupId, memberId))).data,
+  getGroupMembers:  async (payload: GroupMemberId): Promise<GroupMember[]> => (await apiClient.post<{ data: GroupMember[] }>(API_ENDPOINTS.GROUP_MEMBER.MEMBERS, payload)).data.data,
+  addGroupMembers:  async (payload: AddGroupMemberPayload): Promise<AddGroupMemberResponse> => (await apiClient.post<{ data: AddGroupMemberResponse }>(API_ENDPOINTS.GROUP_MEMBER.ADD, payload)).data.data,
 };
 
 export default groupService;

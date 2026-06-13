@@ -1,19 +1,31 @@
 import React from 'react';
 import { createDrawerNavigator }    from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import type { DrawerParamList, BottomTabParamList } from './types';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import type { DrawerParamList, BottomTabParamList, HomeStackParamList } from './types';
 import HomeScreen          from '../features/home/screens/HomeScreen';
+import GroupDetailsScreen  from '../features/groups/screens/GroupDetailsScreen';
+import AddMemberScreen     from '../features/groups/screens/AddMemberScreen';
 import ContactsScreen      from '../features/contacts/screens/ContactsScreen';
 import ProfileScreen       from '../features/profile/screens/ProfileScreen';
 import AboutScreen         from '../features/about/screens/AboutScreen';
 import CustomDrawerContent from './CustomDrawerContent';
 
-const Tab    = createBottomTabNavigator<BottomTabParamList>();
-const Drawer = createDrawerNavigator<DrawerParamList>();
+const HomeStack = createNativeStackNavigator<HomeStackParamList>();
+const Tab       = createBottomTabNavigator<BottomTabParamList>();
+const Drawer    = createDrawerNavigator<DrawerParamList>();
+
+const HomeStackNavigator = () => (
+  <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+    <HomeStack.Screen name="HomeScreen"         component={HomeScreen} />
+    <HomeStack.Screen name="GroupDetailsScreen" component={GroupDetailsScreen} />
+    <HomeStack.Screen name="AddMemberScreen"    component={AddMemberScreen} />
+  </HomeStack.Navigator>
+);
 
 const TabNavigator = () => (
   <Tab.Navigator screenOptions={{ headerShown: false }}>
-    <Tab.Screen name="HomeTab"     component={HomeScreen}     options={{ title: 'Home' }} />
+    <Tab.Screen name="HomeTab"     component={HomeStackNavigator} options={{ title: 'Home' }} />
     <Tab.Screen name="ContactsTab" component={ContactsScreen} options={{ title: 'Contacts' }} />
     <Tab.Screen name="ProfileTab"  component={ProfileScreen}  options={{ title: 'Profile' }} />
   </Tab.Navigator>

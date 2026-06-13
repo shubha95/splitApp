@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { HomeStackParamList } from '../../../navigation/types';
 import Toast from 'react-native-toast-message';
 import {
   fetchMyGroupsThunk,
@@ -12,6 +15,7 @@ import type { MyGroup } from '../../../types/api';
 
 export const useHomeScreen = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
   const { myGroups, myGroupsLoading, myGroupsTotal, error } = useSelector(
     (s: RootState) => s.groups,
   );
@@ -90,8 +94,8 @@ export const useHomeScreen = () => {
   };
   
   const Details = (group: MyGroup) => {
-    console.log('Group Details:', group);
-  }
+    navigation.navigate('GroupDetailsScreen', { groupId: group.groupID });
+  };
   return {
     myGroups,
     myGroupsLoading,

@@ -17,6 +17,8 @@ export type RootStackParamList = {
 
 export type HomeStackParamList = {
   HomeScreen: undefined;
+  GroupDetailsScreen: { groupId: string };
+  AddMemberScreen:    { groupId: string };
 };
 
 export type ContactsStackParamList = {
@@ -53,7 +55,9 @@ export type LoginScreenProps         = NativeStackScreenProps<AuthStackParamList
 export type RegisterScreenProps      = NativeStackScreenProps<AuthStackParamList, 'Register'>;
 export type ForgotPasswordScreenProps = NativeStackScreenProps<AuthStackParamList, 'ForgotPassword'>;
 
-export type HomeScreenProps     = BottomTabScreenProps<BottomTabParamList, 'HomeTab'>;
+export type HomeScreenProps          = NativeStackScreenProps<HomeStackParamList, 'HomeScreen'>;
+export type GroupDetailsScreenProps  = NativeStackScreenProps<HomeStackParamList, 'GroupDetailsScreen'>;
+export type AddMemberScreenProps     = NativeStackScreenProps<HomeStackParamList, 'AddMemberScreen'>;
 export type ContactsScreenProps = BottomTabScreenProps<BottomTabParamList, 'ContactsTab'>;
 export type ProfileScreenProps  = BottomTabScreenProps<BottomTabParamList, 'ProfileTab'>;
 

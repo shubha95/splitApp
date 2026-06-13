@@ -11,6 +11,7 @@ export const API_ENDPOINTS = {
     RESET_PASSWORD:  '/auth/reset-password',
     ME:              '/auth/me',
     SOCIAL:          '/auth/social',
+    USERS:           '/auth/users',
   },
   EXPENSES: {
     BASE:     '/expenses',
@@ -27,6 +28,10 @@ export const API_ENDPOINTS = {
     BY_ID:         (id: string) => `/groups/${id}`,
     MEMBERS:       (groupId: string) => `/groups/${groupId}/members`,
     MEMBER_BY_ID:  (groupId: string, memberId: string) => `/groups/${groupId}/members/${memberId}`,
+  },
+  GROUP_MEMBER: {
+    MEMBERS: '/group-member/members',
+    ADD:     '/group-member',
   },
   CONTACTS: {
     BASE:   '/contacts',
