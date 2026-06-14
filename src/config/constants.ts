@@ -32,6 +32,7 @@ export const API_ENDPOINTS = {
   GROUP_MEMBER: {
     MEMBERS: '/group-member/members',
     ADD:     '/group-member',
+    REMOVE:  '/group-member',
   },
   CONTACTS: {
     BASE:   '/contacts',

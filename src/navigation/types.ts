@@ -36,9 +36,10 @@ export type AboutStackParamList = {
 // ── Navigator param lists ─────────────────────────────────────────────────────
 
 export type BottomTabParamList = {
-  HomeTab:     undefined;
+  Dashboard:   undefined;
+  Group:       undefined;
   ContactsTab: undefined;
-  ProfileTab:  undefined;
+  ExpenseTab:  undefined;
 };
 
 export type DrawerParamList = {
@@ -58,7 +59,9 @@ export type ForgotPasswordScreenProps = NativeStackScreenProps<AuthStackParamLis
 export type HomeScreenProps          = NativeStackScreenProps<HomeStackParamList, 'HomeScreen'>;
 export type GroupDetailsScreenProps  = NativeStackScreenProps<HomeStackParamList, 'GroupDetailsScreen'>;
 export type AddMemberScreenProps     = NativeStackScreenProps<HomeStackParamList, 'AddMemberScreen'>;
-export type ContactsScreenProps = BottomTabScreenProps<BottomTabParamList, 'ContactsTab'>;
-export type ProfileScreenProps  = BottomTabScreenProps<BottomTabParamList, 'ProfileTab'>;
+export type DashboardScreenProps    = BottomTabScreenProps<BottomTabParamList, 'Dashboard'>;
+export type ExpenseTabScreenProps   = BottomTabScreenProps<BottomTabParamList, 'ExpenseTab'>;
+export type ContactsScreenProps     = BottomTabScreenProps<BottomTabParamList, 'ContactsTab'>;
+export type ProfileScreenProps      = BottomTabScreenProps<BottomTabParamList, 'ProfileTab'>;
 
 export type AboutScreenProps = DrawerScreenProps<DrawerParamList, 'About'>;

@@ -107,6 +107,10 @@ export type AddGroupMemberPayload = {
   groupID:  string;
 };
 
+export type RemoveGroupMemberPayload = {
+  memberRecordID: string;
+};
+
 export type AddGroupMemberResponse = {
   totalRequested: number;
   added:          number;

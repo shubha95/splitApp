@@ -4,10 +4,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { DrawerParamList, BottomTabParamList, HomeStackParamList } from './types';
 import HomeScreen          from '../features/home/screens/HomeScreen';
+import DashboardScreen     from '../features/dashboard/screens/DashboardScreen';
 import GroupDetailsScreen  from '../features/groups/screens/GroupDetailsScreen';
 import AddMemberScreen     from '../features/groups/screens/AddMemberScreen';
 import ContactsScreen      from '../features/contacts/screens/ContactsScreen';
 import ProfileScreen       from '../features/profile/screens/ProfileScreen';
+import ExpensesScreen     from '../features/expenses/screens/ExpensesScreen';
 import AboutScreen         from '../features/about/screens/AboutScreen';
 import CustomDrawerContent from './CustomDrawerContent';
 
@@ -25,9 +27,9 @@ const HomeStackNavigator = () => (
 
 const TabNavigator = () => (
   <Tab.Navigator screenOptions={{ headerShown: false }}>
-    <Tab.Screen name="HomeTab"     component={HomeStackNavigator} options={{ title: 'Home' }} />
-    <Tab.Screen name="ContactsTab" component={ContactsScreen} options={{ title: 'Contacts' }} />
-    <Tab.Screen name="ProfileTab"  component={ProfileScreen}  options={{ title: 'Profile' }} />
+    <Tab.Screen name="Dashboard"   component={DashboardScreen}    options={{ title: 'Dashboard' }} />
+    <Tab.Screen name="Group" component={HomeStackNavigator} options={{ title: 'Group' }} />
+    <Tab.Screen name="ExpenseTab"  component={ExpensesScreen} options={{ title: 'Expenses' }} />
   </Tab.Navigator>
 );
 

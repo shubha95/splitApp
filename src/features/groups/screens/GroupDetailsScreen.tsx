@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Text, StyleSheet, FlatList, View,
-  ActivityIndicator, TouchableOpacity,
+  ActivityIndicator, TouchableOpacity, Alert, Animated,
 } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import type { GroupDetailsScreenProps } from '../../../navigation/types';
@@ -11,20 +11,11 @@ import { rfs, rvs, rSpacing, rms, rs } from '../../../theme/device';
 import { useGroupMember } from './useGroupMember';
 import type { GroupMember } from '../../../types/api';
 
-const ICON = rs(20);
-
-const BackIcon = () => (
-  <Svg width={ICON} height={ICON} viewBox="0 0 24 24" fill="none">
+const TrashIcon = () => (
+  <Svg width={rs(18)} height={rs(18)} viewBox="0 0 24 24" fill="none">
     <Path
-      d="M19 12H5"
-      stroke={colors.text}
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M12 19l-7-7 7-7"
-      stroke={colors.text}
+      d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"
+      stroke={colors.danger}
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -32,13 +23,48 @@ const BackIcon = () => (
   </Svg>
 );
 
+type Toast = { message: string; success: boolean };
+
 const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({ route, navigation }) => {
   const { groupId } = route.params;
-  const { groupMembers, groupMembersLoading, groupMembersError, fetchMembers } = useGroupMember();
+  const { groupMembers, groupMembersLoading, groupMembersError, fetchMembers, removeMember, removeLoading } = useGroupMember();
+
+  const [toast, setToast] = useState<Toast | null>(null);
+  const toastOpacity = useRef(new Animated.Value(0)).current;
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     fetchMembers(groupId);
   }, [groupId]);
+
+  const showToast = (message: string, success: boolean) => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    setToast({ message, success });
+    Animated.timing(toastOpacity, { toValue: 1, duration: 250, useNativeDriver: true }).start();
+    toastTimer.current = setTimeout(() => {
+      Animated.timing(toastOpacity, { toValue: 0, duration: 300, useNativeDriver: true }).start(() =>
+        setToast(null),
+      );
+    }, 2500);
+  };
+
+  const handleRemove = (item: GroupMember) => {
+    Alert.alert(
+      'Remove Member',
+      `Are you sure you want to remove ${item.userName}?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Remove',
+          style: 'destructive',
+          onPress: async () => {
+            const result = await removeMember(item.memberRecordID, groupId);
+            showToast(result.message, result.success);
+          },
+        },
+      ],
+    );
+  };
 
   const renderMember = ({ item }: { item: GroupMember }) => (
     <View style={styles.memberCard}>
@@ -56,6 +82,17 @@ const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({ route, navigati
           {item.role}
         </Text>
       </View>
+      {item.role !== 'owner' && (
+        <TouchableOpacity
+          style={styles.removeBtn}
+          onPress={() => handleRemove(item)}
+          activeOpacity={0.7}
+          disabled={removeLoading}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+        >
+          <TrashIcon />
+        </TouchableOpacity>
+      )}
     </View>
   );
 
@@ -63,17 +100,7 @@ const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({ route, navigati
     <Screen padded style={styles.container}>
 
       <View style={styles.header}>
-        {/* <TouchableOpacity
-          style={styles.backBtn}
-          onPress={() => navigation.goBack()}
-          activeOpacity={0.7}
-          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-        >
-          <BackIcon />
-        </TouchableOpacity> */}
-
         <Text style={styles.title}>Members</Text>
-
         <TouchableOpacity
           style={styles.addBtn}
           onPress={() => navigation.navigate('AddMemberScreen', { groupId })}
@@ -103,6 +130,12 @@ const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({ route, navigati
         showsVerticalScrollIndicator={false}
       />
 
+      {toast && (
+        <Animated.View style={[styles.toast, toast.success ? styles.toastSuccess : styles.toastError, { opacity: toastOpacity }]}>
+          <Text style={styles.toastText}>{toast.message}</Text>
+        </Animated.View>
+      )}
+
     </Screen>
   );
 };
@@ -115,11 +148,6 @@ const styles = StyleSheet.create({
     alignItems:     'center',
     justifyContent: 'space-between',
     marginBottom:   rvs(16),
-  },
-  backBtn: {
-    padding:         rSpacing.xs,
-    borderRadius:    rms(8),
-    backgroundColor: colors.border,
   },
   title: {
     fontSize:   rfs(18),
@@ -175,10 +203,35 @@ const styles = StyleSheet.create({
     borderRadius:      rms(6),
     paddingVertical:   rvs(3),
     paddingHorizontal: rSpacing.xs,
+    marginRight:       rSpacing.sm,
   },
   ownerBadge: { backgroundColor: colors.primary + '20' },
   roleText:   { fontSize: rfs(11), fontWeight: '600', color: colors.textSecondary, textTransform: 'capitalize' },
   ownerText:  { color: colors.primary },
+
+  removeBtn: {
+    padding:         rSpacing.xs,
+    borderRadius:    rms(6),
+    backgroundColor: colors.danger + '15',
+  },
+
+  toast: {
+    position:          'absolute',
+    bottom:            rvs(32),
+    left:              rSpacing.lg,
+    right:             rSpacing.lg,
+    borderRadius:      rms(10),
+    paddingVertical:   rvs(12),
+    paddingHorizontal: rSpacing.md,
+    alignItems:        'center',
+  },
+  toastSuccess: { backgroundColor: '#1a7a4a' },
+  toastError:   { backgroundColor: colors.danger },
+  toastText: {
+    color:      '#ffffff',
+    fontSize:   rfs(14),
+    fontWeight: '600',
+  },
 });
 
 export default GroupDetailsScreen;
